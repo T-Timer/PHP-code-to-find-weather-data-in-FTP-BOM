@@ -2,77 +2,8 @@
 
 $ftp_username = "anonymous";
 $ftp_userpass = "guest";
-//Use this try to test success connection to ftp server.
-try {
-	$server = "ftp.bom.gov.au";
-    $con = ftp_connect($server);
-	ftp_pasv($con , TRUE); // bypassing firewall on the ftp server side. 
-    if (false === $con) {
-        throw new Exception('Unable to connect');
-    }
+//Connect code is removed
 
-    $loggedIn = ftp_login($con, $ftp_username ,  $ftp_userpass);
-    if (true === $loggedIn) {
-        echo 'Connection to server is successful.';
-    } else {
-        throw new Exception('Unable to log in');
-    }
-
-    //print_r(ftp_nlist($con, "."));
-    
-} catch (Exception $e) {
-    echo "Failure: " . $e->getMessage();
-}
-//End of try method.
-
-//echo "Current directory: " . ftp_pwd($con) . "\n";
-
-// try to change the directory to somedir
-if (ftp_chdir($con, "anon/gen/fwo/")) {
-    echo "<br>Current directory is now: " . ftp_pwd($con) . "\n";
-} else { 
-    echo "Couldn't change directory\n";
-}
-echo "<br><br>";
-
-//Downloading the xml file and save it to a file called NSW_WeatherStations. 
-$local_fileNSW = "NSW_WeatherStations";
-$server_fileNSW = "IDN60920.xml";
-
-$local_fileWA = "WA_WeatherStations";
-$server_fileWA = "IDW60920.xml";
-
-$local_fileQLD = "QLD_WeatherStations";
-$server_fileQLD = "IDQ60920.xml";
-// download server file
-
-if (ftp_get($con, $local_fileNSW, $server_fileNSW, FTP_ASCII))
-  {
-  echo "Successfully written to $local_fileNSW. ";
-  }
-else
-  {
-  echo "Error downloading $server_fileNSW.";
-  }
- if (ftp_get($con, $local_fileWA, $server_fileWA, FTP_ASCII))
-  {
-  echo "Successfully written to $local_fileWA. ";
-  }
-else
-  {
-  echo "Error downloading $server_fileWA.";
-  }
- if (ftp_get($con, $local_fileQLD, $server_fileQLD, FTP_ASCII))
-  {
-  echo "Successfully written to $server_fileQLD. ";
-  }
-else
-  {
-  echo "Error downloading $local_fileQLD.";
-  }
-
-
-//Loading the NSW_WeatherStations file. 
 $xml=simplexml_load_file("NSW_WeatherStations") or die("Error: Cannot create object");
 //print_r($xml); //Prints the entire file onto the screen. 
 
